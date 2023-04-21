@@ -1,0 +1,17 @@
+.title-page-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  gap: 2rem;
+    
+  .title {
+    font-size: 48px;
+  }
+
+  .logo {
+    width: 400px;
+  }
+}
+
+  
