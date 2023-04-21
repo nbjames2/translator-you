@@ -1,4 +1,4 @@
-export const data = {
+export const data: Record<string, string> = {
   forest: 'forêt',
   sibling: 'frère et sœur',
   cereal: 'céréale',
