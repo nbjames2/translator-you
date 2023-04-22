@@ -4,11 +4,14 @@ import './App.scss';
 import { Challenge, Title } from './components';
 import { data } from './data';
 
+/**
+ * returns a shuffled version of the array passed in
+ */
 const shuffleData = async (startingArray: string[]): Promise<string[]> => {
   const result: string[] = [];
   const wordArray = [...startingArray];
   while(wordArray.length > 0) {
-    const randIndex = wordArray.length > 1 ? Math.floor(Math.random() * (wordArray.length - 1)) : 0;
+    const randIndex = (Math.random() * wordArray.length) | 0;
     result.push(wordArray[randIndex]);
     wordArray.splice(randIndex, 1);
   }
@@ -23,25 +26,26 @@ export const App = () => {
   const [answers, setAnswers] = useState<Record<string, string>>({});
   const [grade, setGrade] = useState<number | null>(null);
 
-  const handleGoClick = () => {
-    setShowSplash(false);
-    startNewGame();
-  };
-
-  const handleGradeClick = () => {
+  /**
+   * Ends the game and calculates the grade to be displayed
+  */
+ const handleGradeClick = () => {
     let correct = 0;
     for (const key of Object.keys(data)) {
       if (data[key] === answers[key]) {
         correct++;
       }
     }
-    console.log('grade ==> ', correct, Object.keys(data).length, (correct / Object.keys(data).length) * 100);
     const percentCorrect = Math.round((correct / Object.keys(data).length) * 100);
     setGrade(percentCorrect);
     setGameRunning(false);
   };
-
+  
+  /**
+   * Resets all values and starts a new game
+   */
   const startNewGame = async () => {
+    setShowSplash(false);
     setAnswers({});
     setGrade(null);
     setEnglishList(await shuffleData(Object.keys(data)));
@@ -49,8 +53,10 @@ export const App = () => {
     setGameRunning(true);
   };
 
+  /**
+   * Handles storing the answers from the Challenge component
+   */
   const handleAnswersChange = (english: string, french: string) => {
-    console.log('answer ==> ', english, french);
     const tempAnswers = {...answers};
     tempAnswers[english] = french;
     setAnswers(tempAnswers);
@@ -69,11 +75,11 @@ export const App = () => {
           disabled={!gameRunning}
         />
       )}
-      {grade && <div className='grade'>You scored {grade}%</div>}
+      {grade !== null && <div className='grade'>You scored {grade}%</div>}
       {gameRunning ? (
         <button className='button' onClick={() => handleGradeClick()}>GRADE</button>
       ) : (
-        <button className='button' onClick={() => handleGoClick()}>Go!</button>
+        <button className='button' onClick={() => startNewGame()}>Go!</button>
       )}
     </div>
   );

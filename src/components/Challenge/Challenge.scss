@@ -3,4 +3,8 @@
   align-items: center;
   width: 100vw;
   justify-content: space-around;
+
+  #cursor {
+    position: absolute;
+  }
 }

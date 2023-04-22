@@ -8,6 +8,9 @@ type Props = {
   handleMouseUp: (value:string) => void;
 };
 
+/**
+ * Displays the Table for an array of words passed in
+ */
 export const WordTable = ({wordList, label, color, handleMouseDown, handleMouseUp}: Props) => {
   return (
     <table className={`wordtable-container ${color}`}>
