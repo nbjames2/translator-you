@@ -1,0 +1,75 @@
+.wordtable-container {
+  border-collapse: collapse;
+
+  th {
+    color: white;
+    font-size: 24px;
+    padding: 0.5rem;
+  }
+
+  td {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    cursor: pointer;
+    -moz-user-select: -moz-none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+
+  &.green {
+    border: 1px solid #15803d;
+
+    thead {
+      background: #16a34a;
+    }
+
+    tr {
+      border: 1px solid #15803d;
+
+      &.dark-row {
+        background: #dcfce7;
+      }
+  
+      &.light-row {
+        background: white;
+      }
+
+      td{
+        &:active {
+          background: #bbf7d0;
+        }
+      }
+    }
+
+  }
+
+  &.blue {
+    border: 1px solid #0369a1;
+
+    thead {
+      background: #0ea5e9;
+    }
+
+    tr {
+      border: 1px solid #0369a1;
+      
+      &.dark-row {
+        background: #e0f2fe;
+      }
+  
+      &.light-row {
+        background: white;
+      }
+
+      td {
+        &:active {
+          background: #bae6fd;
+        }
+      }
+    }
+  }
+}

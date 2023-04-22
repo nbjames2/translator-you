@@ -5,11 +5,12 @@ import { Challenge, Title } from './components';
 import { data } from './data';
 
 const shuffleData = async (startingArray: string[]): Promise<string[]> => {
-  const result = [];
-  while(startingArray.length > 0) {
-    const randIndex = Math.floor(Math.random() * startingArray.length) + 1;
-    result.push(startingArray[randIndex]);
-    startingArray.splice(randIndex, 1);
+  const result: string[] = [];
+  const wordArray = [...startingArray];
+  while(wordArray.length > 0) {
+    const randIndex = wordArray.length > 1 ? Math.floor(Math.random() * (wordArray.length - 1)) : 0;
+    result.push(wordArray[randIndex]);
+    wordArray.splice(randIndex, 1);
   }
   return result;
 };
@@ -29,15 +30,13 @@ export const App = () => {
 
   const handleGradeClick = () => {
     let correct = 0;
-    let wrong = 0;
     for (const key of Object.keys(data)) {
       if (data[key] === answers[key]) {
         correct++;
-      } else {
-        wrong++;
       }
     }
-    const percentCorrect = Math.round(correct / wrong);
+    console.log('grade ==> ', correct, Object.keys(data).length, (correct / Object.keys(data).length) * 100);
+    const percentCorrect = Math.round((correct / Object.keys(data).length) * 100);
     setGrade(percentCorrect);
     setGameRunning(false);
   };
@@ -51,6 +50,7 @@ export const App = () => {
   };
 
   const handleAnswersChange = (english: string, french: string) => {
+    console.log('answer ==> ', english, french);
     const tempAnswers = {...answers};
     tempAnswers[english] = french;
     setAnswers(tempAnswers);
@@ -61,7 +61,13 @@ export const App = () => {
       {showSplash ? (
         <Title />
       ) : (
-        <Challenge englishList={englishList} frenchList={frenchList} answers={answers} setAnswers={handleAnswersChange}/>
+        <Challenge
+          englishList={englishList}
+          frenchList={frenchList}
+          answers={answers}
+          setAnswers={handleAnswersChange}
+          disabled={!gameRunning}
+        />
       )}
       {grade && <div className='grade'>You scored {grade}%</div>}
       {gameRunning ? (
