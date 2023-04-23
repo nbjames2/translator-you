@@ -1,6 +1,7 @@
 import React, { useRef, useState } from 'react';
 import Xarrow, { Xwrapper, useXarrow } from 'react-xarrows';
 
+import { data } from '../../data';
 import { WordTable } from '../WordTable/WordTable';
 import './Challenge.scss';
 
@@ -92,6 +93,14 @@ export const Challenge = ({
     }
   };
 
+  /**
+   * Returns whether the arrow should be red(wrong) or green(right) after game is over
+   */
+  const checkAnswer = (key: string) => {
+    if (data[key] === answers[key]) return 'green';
+    return 'red';
+  };
+
   return (
     <Xwrapper>
       <div className='challenge-container' onMouseUp={() => handleMouseUp('', null)} onMouseMove={(e) => handleMouseMove(e)}>
@@ -112,10 +121,18 @@ export const Challenge = ({
         <Xarrow
           showXarrow={mouseDown && !!englishChoice || !!frenchChoice}
           start={englishChoice ? englishChoice : frenchChoice}
-          end={cursor}
+          end='cursor'
           path='straight'
         />
-        {Object.keys(answers).map((key) => <Xarrow key={`answer-${key}`} start={key} end={answers[key]} path='straight' />)}
+        {Object.keys(answers).map((key) => (
+          <Xarrow
+            key={`answer-${key}`}
+            start={key}
+            end={answers[key]}
+            path='straight'
+            color={disabled ? checkAnswer(key) : 'CornflowerBlue'}
+          />
+        ))}
         <div ref={cursor} id='cursor' />
       </div>
     </Xwrapper>
